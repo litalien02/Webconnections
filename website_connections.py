@@ -61,9 +61,7 @@ def extract_tracking_codes(domains):
 # remove the trailing dash and number
             code = clean_tracking_code(code)
             if code.lower() not in tracking_codes:
-
               print ("[*] Discovered: %s" % code.lower())
-
                 if code not in connections.keys():
                     connections[code] = [domain]
                 else:
@@ -71,21 +69,14 @@ def extract_tracking_codes(domains):
     return connections
 # Send a request off to Spy On Web
 def spyonweb_request(data,request_type="domain"):
-
     params = {}
     params['access_token'] = spyonweb_access_token
-
     response = requests.get(spyonweb_url+request_type+"/"+data,params=params)
-
     if response.status_code == 200:
-
         result = response.json()
-
         if result['status'] != "not_found":
-
             return result
-
-    return None
+            return None
 
 # Use Spyonweb to grab full domain reports.
 def spyonweb_domain_reports(connections):
@@ -93,11 +84,8 @@ def spyonweb_domain_reports(connections):
     # now loop over all of the domains and request a domain report
     tested_domains = []
     all_codes      = connections.keys()
-
     for code in all_codes:
-
         for domain in connections[code]:
-
             if domain not in tested_domains:
                 tested_domains.append(domain)
                 print ("[*] Getting domain report for: %s" % domain)
@@ -195,10 +183,8 @@ if len(connections.keys()):
 
     # use Spyonweb to find connected sites via their tracking codes
     connections = spyonweb_analytics_codes(connections)
-
     # request full domain reports from Spyonweb to tease out any other connections
     connections = spyonweb_domain_reports(connections)
-
     # now create a graph of the connections
     graph_connections(connections,domains,args.graph)
 
