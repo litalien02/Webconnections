@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-21 septembre 09:58:45 2018
+# -*- coding: utf-8 -*- Thanks to automating OSINT
+"""21 septembre 09:58:45 2018
+@author: """
 
-@author: x
-"""
 import argparse
 import networkx
 import re
@@ -32,14 +30,10 @@ def clean_tracking_code(tracking_code):
         return tracking_code.rsplit("-",1)[0]
     else:
         return tracking_code
-
 # Extract tracking codes from a target domain.
-
 def extract_tracking_codes(domains):
-
     tracking_codes = []
     connections    = {}
-
     for domain in domains:
         # send a request off to the website
         try: 
@@ -50,14 +44,12 @@ def extract_tracking_codes(domains):
         except:
             print ("[!] Failed to reach site.")
         continue
-
 # extract the tracking codes
         extracted_codes = []
         extracted_codes.extend(google_adsense_pattern.findall(response.content))
         extracted_codes.extend(google_analytics_pattern.findall(response.content))
 # loop over the extracted tracking codes
         for code in extracted_codes:
-
 # remove the trailing dash and number
             code = clean_tracking_code(code)
             if code.lower() not in tracking_codes:
@@ -77,11 +69,9 @@ def spyonweb_request(data,request_type="domain"):
         if result['status'] != "not_found":
             return result
             return None
-
 # Use Spyonweb to grab full domain reports.
 def spyonweb_domain_reports(connections):
-
-    # now loop over all of the domains and request a domain report
+# now loop over all of the domains and request a domain report
     tested_domains = []
     all_codes      = connections.keys()
     for code in all_codes:
