@@ -171,11 +171,11 @@ else:
 connections = extract_tracking_codes(domains)
 if len(connections.keys()):
 
-    # use Spyonweb to find connected sites via their tracking codes
+# use Spyonweb to find connected sites via their tracking codes
     connections = spyonweb_analytics_codes(connections)
-    # request full domain reports from Spyonweb to tease out any other connections
+# request full domain reports from Spyonweb to tease out any other connections
     connections = spyonweb_domain_reports(connections)
-    # now create a graph of the connections
+# now create a graph of the connections
     graph_connections(connections,domains,args.graph)
 
 else:
