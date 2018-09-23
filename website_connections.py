@@ -25,7 +25,6 @@ args = parser.parse_args()
 
 # Clean tracking code
 def clean_tracking_code(tracking_code):
-
     if tracking_code.count("-") > 1:
         return tracking_code.rsplit("-",1)[0]
     else:
@@ -34,12 +33,12 @@ def clean_tracking_code(tracking_code):
 def extract_tracking_codes(domains):
     tracking_codes = []
     connections    = {}
-    for domain in domains:
-        # send a request off to the website
+for domain in domains:
+# send a request off to the website
         try: 
-                print ("[*] Checking %s for tracking codes." %domain)
-            if not domain.startswith("http:"):
-                site = "http://" + domain
+            print ("[*] Checking %s for tracking codes." %domain)
+                if not domain.startswith("http:"):
+            site = "http://" + domain
             response = requests.get(site)
         except:
             print ("[!] Failed to reach site.")
@@ -49,7 +48,7 @@ def extract_tracking_codes(domains):
         extracted_codes.extend(google_adsense_pattern.findall(response.content))
         extracted_codes.extend(google_analytics_pattern.findall(response.content))
 # loop over the extracted tracking codes
-        for code in extracted_codes:
+for code in extracted_codes:
 # remove the trailing dash and number
             code = clean_tracking_code(code)
             if code.lower() not in tracking_codes:
@@ -64,8 +63,8 @@ def spyonweb_request(data,request_type="domain"):
     params = {}
     params['access_token'] = spyonweb_access_token
     response = requests.get(spyonweb_url+request_type+"/"+data,params=params)
-    if response.status_code == 200:
-        result = response.json()
+        if response.status_code == 200:
+            result = response.json()
         if result['status'] != "not_found":
             return result
             return None
@@ -80,7 +79,7 @@ def spyonweb_domain_reports(connections):
                 tested_domains.append(domain)
                 print ("[*] Getting domain report for: %s" % domain)
                 results = spyonweb_request(domain)
-                if results:
+                    if results:
 # loop over adsense results
                     adsense = results['result'].get("adsense")
                     if adsense:
