@@ -37,7 +37,7 @@ for domain in domains:
 # send a request off to the website
         try: 
             print ("[*] Checking %s for tracking codes." %domain)
-                if not domain.startswith("http:"):
+        if not domain.startswith("http:"):
             site = "http://" + domain
             response = requests.get(site)
         except:
@@ -48,16 +48,16 @@ for domain in domains:
         extracted_codes.extend(google_adsense_pattern.findall(response.content))
         extracted_codes.extend(google_analytics_pattern.findall(response.content))
 # loop over the extracted tracking codes
-for code in extracted_codes:
+        for code in extracted_codes:
 # remove the trailing dash and number
             code = clean_tracking_code(code)
-            if code.lower() not in tracking_codes:
+        if code.lower() not in tracking_codes:
               print ("[*] Discovered: %s" % code.lower())
-                if code not in connections.keys():
+        if code not in connections.keys():
                     connections[code] = [domain]
-                else:
+        else:
                     connections[code].append(domain)
-    return connections
+        return connections
 # Send a request off to Spy On Web
 def spyonweb_request(data,request_type="domain"):
     params = {}
@@ -74,16 +74,16 @@ def spyonweb_domain_reports(connections):
     tested_domains = []
     all_codes      = connections.keys()
     for code in all_codes:
-        for domain in connections[code]:
-            if domain not in tested_domains:
+    for domain in connections[code]:
+        if domain not in tested_domains:
                 tested_domains.append(domain)
                 print ("[*] Getting domain report for: %s" % domain)
                 results = spyonweb_request(domain)
-                    if results:
+        if results:
 # loop over adsense results
                     adsense = results['result'].get("adsense")
-                    if adsense:
-                        for code in adsense:
+        if adsense:
+                for code in adsense:
                             code = clean_tracking_code(code)
                             if code not in connections:
                                 connections[code] = []
@@ -91,8 +91,8 @@ def spyonweb_domain_reports(connections):
                                 if domain not in connections[code]:
                                     print ("[*] Discovered new domain: %s" % domain)
                                     connections[code].append(domain)
-                    analytics = results['result'].get("analytics")
-                    if analytics:
+                                    analytics = results['result'].get("analytics")
+                if analytics:
                         for code in analytics:
                             code = clean_tracking_code(code)
                             if code not in connections:
@@ -106,7 +106,6 @@ def spyonweb_domain_reports(connections):
 # Use Spyonweb to grab full domain reports.
 
 def spyonweb_domain_reports(connections):
-
 # now loop over all of the domains and request a domain report
     tested_domains = []
     all_codes      = connections.keys()
@@ -116,7 +115,7 @@ def spyonweb_domain_reports(connections):
                 tested_domains.append(domain)
                 print ("[*] Getting domain report for: %s" % domain)
                 results = spyonweb_request(domain)
-                if results:
+            if results:
 # loop over adsense results
                     adsense = results['result'].get("adsense")
                     if adsense:
